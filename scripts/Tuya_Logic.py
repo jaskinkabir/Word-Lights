@@ -1,7 +1,5 @@
 import colorsys
 import pprint
-
-import time
 import tinytuya
 from scripts.epic_utils import getSettings
 
@@ -15,7 +13,7 @@ class CloudBulb:
         
     
         
-        #pp.pprint(self.cloud.getfunctions(id))
+        
         
     def weezer(self):
         self.setColor(((24,155,204)))

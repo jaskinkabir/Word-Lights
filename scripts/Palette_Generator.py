@@ -5,6 +5,23 @@ from os import remove
 import turtle
 from scripts.epic_utils import getSettings
 
+class ImgTest:
+    def __init__(self, name):
+        self.name = name
+    
+    def download(self):
+        print(f"Downloaded {self.name}")
+
+class Gist:
+    def __init__(self, api_key, search_id):
+        pass
+    def search(self, search_params):
+        self.results = [
+            ImgTest(search_params['q'])
+        ]
+
+
+
 
 class Gisa:
     def __init__(self):
@@ -15,7 +32,7 @@ class Gisa:
             print("Settings.yaml not found")
         self.gis = GoogleImagesSearch(self.settings["api_key"], self.settings["search_id"])
         
-    def getWordPalette(self, word: str, addPalette: bool = False):
+    def getWordPalette(self, word: str, addPalette: bool = False, algStrength = 2):
         print('Searching for ' + word)
         img = self.getImg(word, addPalette)
         
@@ -24,9 +41,11 @@ class Gisa:
         img.download('./temp/')
         
         print('Generating palette...')
-        colors = ColorThief(img.path).get_palette(6, 2)
+        return ColorThief(img.path).get_palette(
+            color_count = len(getSettings()["Tuya"]['orderedLights']),
+            quality = algStrength
+        )
         
-        return colors   
     
     def getImg(self, query: str, addPalette: bool = False):
         numRes = 4

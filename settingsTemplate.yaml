@@ -7,3 +7,5 @@ Tuya:
   apiSecret:
   apiRegion:
   apiDeviceID:
+  
+  ordered_lights:

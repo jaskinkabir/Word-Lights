@@ -1,8 +1,10 @@
 import os
+from scripts.epic_utils import getSettings
 from scripts.Palette_Generator import Gisa
 from scripts.Tuya_Logic import DeviceManager, CloudBulb
 from tkinter import *
 from tkinter import ttk
+
 
 
 
@@ -20,14 +22,7 @@ def setColors(word: str, addPalette:bool = False):
     
     colors = gs.getWordPalette(word, addPalette)
     
-    orderedLights = [
-        'TV',
-        'Desk',
-        'Center',
-        'Guitars',
-        'Bathroom',
-        'Stairway'
-    ]
+    orderedLights = getSettings()['Tuya']['orderedLights']
     
     for i, light in enumerate(orderedLights):
         bulb: CloudBulb = dm.getDevice(light)
@@ -63,7 +58,7 @@ wordEntry = ttk.Entry(mainframe, width=7, textvariable=wordVar)
 wordEntry.grid(column=2, row=1, sticky=(W, E))
 
 paletteOption = BooleanVar()
-paletteCheckBox = ttk.Checkbutton(mainframe, text="Add 'color palette' to end of query", variable=paletteOption)
+paletteCheckBox = ttk.Checkbutton(mainframe, text="Add ' color palette' to end of query", variable=paletteOption)
 paletteCheckBox.grid(column=2, row=2, sticky=(W, E))
 ttk.Button(mainframe, text="Generate and set colors", command=colorCommand).grid(column=3, row=3, sticky=W)
 ttk.Button(mainframe, text="Reset GISA", command=lambda: gs.resetGisa()).grid(column=3, row=4, sticky=W)
