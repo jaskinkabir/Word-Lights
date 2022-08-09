@@ -1,0 +1,9 @@
+Google:
+  api_key: 
+  search_id:
+
+Tuya:
+  apiKey: 
+  apiSecret:
+  apiRegion:
+  apiDeviceID:

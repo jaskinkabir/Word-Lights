@@ -1,0 +1,7 @@
+temp/
+__pycache__/
+tinytuya.json
+devices.json
+snapshot.json
+tuya-raw.json
+settings.yaml
