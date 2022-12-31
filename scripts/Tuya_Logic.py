@@ -18,6 +18,7 @@ class CloudBulb:
     def weezer(self):
         self.setColor(((24,155,204)))
         
+        
     def switch(self, state: bool):
         commands = {
             'commands': [{

@@ -4,7 +4,9 @@ from scripts.Palette_Generator import Gisa
 from scripts.Tuya_Logic import DeviceManager, CloudBulb
 from tkinter import *
 from tkinter import ttk
+from time import sleep, time
 
+from random import randint, seed, uniform, choice
 
 
 
@@ -31,6 +33,8 @@ def setColors(word: str, addPalette:bool = False):
 
 
 def colorCommand(*args):
+    gs.resetGisa()
+    
     word = wordVar.get()
     addPalette = paletteOption.get()
     
@@ -40,12 +44,42 @@ def colorCommand(*args):
 root = Tk(
     screenName="Word Lights"
 )
-root.title = "Word Lights"
+root.title("Word Lights")
 
 def weezer():
     for device in dm.devices.values():
         device.weezer()
+        
+def white():
+    for device in dm.devices.values():
+        device.setWhite()
+        
+        
+        
+randMode = False
+def toggleRandom():
+    global randMode
+    randMode = not randMode
+    randBtnTxt.set("Random Mode On" if randMode else "Random Mode Off")
+    
 
+    
+    
+def randomTime():
+    while True:
+        seed(time())
+        sleep(randint(1, 4))
+        sleep()
+        
+        for deviceNum in dm.devices.keys():
+            device = dm.devices[deviceNum]
+            device.setColor((randint(0,255), randint(0,255), randint(0,255)))
+            
+    
+        
+        
+randBtnTxt = StringVar()
+randBtnTxt.set("Random Mode Off")
 
 
 mainframe = ttk.Frame(root, padding="5 5 12 12")
@@ -61,8 +95,9 @@ paletteOption = BooleanVar()
 paletteCheckBox = ttk.Checkbutton(mainframe, text="Add ' color palette' to end of query", variable=paletteOption)
 paletteCheckBox.grid(column=2, row=2, sticky=(W, E))
 ttk.Button(mainframe, text="Generate and set colors", command=colorCommand).grid(column=3, row=3, sticky=W)
-ttk.Button(mainframe, text="Reset GISA", command=lambda: gs.resetGisa()).grid(column=3, row=4, sticky=W)
 ttk.Button(mainframe, text="Weezer", command=weezer).grid(column=3, row=5, sticky=W)
+ttk.Button(mainframe, text="White", command=white).grid(column=3, row=4, sticky=W)
+randButton = ttk.Button(mainframe, textvariable=randBtnTxt, command=toggleRandom).grid(column=3, row=6, sticky=W)
 
 for child in mainframe.winfo_children(): 
     child.grid_configure(padx=5, pady=5)
@@ -72,6 +107,23 @@ root.bind("<Return>", colorCommand)
 
 
 print("setup complete")
-root.mainloop()
+while True:
+    root.update_idletasks()
+    root.update()
+    
+    if randMode:
+        seed(time())
+        interval = uniform(0.2, 3)
+        print(f"Setting Random Colors after {interval} seconds")
+        sleep(interval)
+        
+        for device in dm.devices.values():
+            device.setColor((randint(0,255), randint(0,255), randint(0,255)))
+            sleep(uniform(0.1, 0.6))
+            
+        
+        
+    
+    
 
 
