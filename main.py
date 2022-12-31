@@ -108,18 +108,17 @@ root.bind("<Return>", colorCommand)
 
 print("setup complete")
 while True:
-    root.update_idletasks()
-    root.update()
-    
     if randMode:
         seed(time())
-        interval = uniform(0.2, 3)
+        interval = uniform(0.2, 2.8)
         print(f"Setting Random Colors after {interval} seconds")
         sleep(interval)
         
         for device in dm.devices.values():
             device.setColor((randint(0,255), randint(0,255), randint(0,255)))
-            sleep(uniform(0.1, 0.6))
+            sleep(uniform(0.1, 0.33))
+    root.update_idletasks()
+    root.update()
             
         
         
